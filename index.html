@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profiles</title>
+  <style>
+    body {
+             
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: aqua;
+      width:350px;
+     
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .user-profile {
+      border: 1px solid #951414;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+   
+    function UserProfiles({ profiles }) {
+      return (
+        <div>
+          {profiles.map(profile => (
+            <div key={profile.id} className="user-profile">
+              <h2>{profile.name}</h2>
+              <p>Email: {profile.email}</p>
+              <p>Phone: {profile.phone}</p>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+   
+    function App() {
+      const [searchTerm, setSearchTerm] = React.useState('');
+      const [filteredProfiles, setFilteredProfiles] = React.useState(profiles);
+
+     
+      const handleSearchInputChange = (e) => {
+        setSearchTerm(e.target.value);
+        filterProfiles(e.target.value);
+      };
+
+   
+      const filterProfiles = (term) => {
+        const filtered = profiles.filter(profile =>
+          profile.name.toLowerCase().includes(term.toLowerCase())
+        );
+        setFilteredProfiles(filtered);
+      };
+
+      return (
+        <div className="container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search by name..."
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+          />
+          <UserProfiles profiles={filteredProfiles} />
+        </div>
+      );
+    }
+
+   
+    const profiles = [
+      { id: 1, name: 'Pinkee Maurya', email: 'pinkimaurya@gmail.com', phone: '963-456-7890' },
+      { id: 2, name: 'Akash Maurya', email: 'akashmaurya@gmail.com', phone: '987-654-3210' },
+      { id: 3, name: 'Vikash Maurya', email: 'vikashmaurya@gmail.com', phone: '896-758-5555' }
+     
+     
+    ];
+
+   
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
